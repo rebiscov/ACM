@@ -20,14 +20,17 @@ void read_input(char string[]);
 int main(void){
   unsigned int N, i, j;
   unsigned int *matrix = NULL; /* where we will put our graph */
-  unsigned int *visited = NULL; /* array to track which nodes were visited */
+  unsigned int *coloration = NULL; /* array to track which nodes have been colored */
+  unsigned int *visited = NULL; /* allow me to track which nodes have been visited */
   char input[15];
 
   while (scanf("%d", &N)){
     matrix = malloc(sizeof(unsigned int)*pow(N,2)); /* Matrix of size N^2 */
+    coloration = malloc(sizeof(unsigned int)*N);
     visited = malloc(sizeof(unsigned int)*N);
-    
+  
     initialize(matrix, pow(N,2)); /* We initialize our matrix with 0 everywhere */
+    initialize(coloration, N);
     initialize(visited, N);
 
     fgets(input, 12, stdin); /* Emptying the input buffer */
@@ -40,9 +43,37 @@ int main(void){
       matrix[N*i+j] = 1;
       matrix[N*j+i] = 1;
     }
+
+    for (i = 0; i < N; i++){ /* let's color this graph */
+      int neighbour[5] = {0, 0, 0, 0, };
+      if (coloration[i] == 4){
+	coloration[i] = 0;
+	i -= 2; /* coloration has failed, back to the previous vertice */
+	continue;
+      }
+    }
   }
   
   return 0;
+}
+
+/* Function wich visit a node */
+
+int visit(unsigned int matrix[], unsigned int coloration[], unsigned int visited, int N, int vertice){
+  int neighbour[5] = {0, 0, 0, 0, 0} , i;
+  if (coloration[vertice] ==  4)
+    return -1; /* Coloration has failed */
+  
+  for (i = 0; i < N; i++){ /* We look the color of the neighbour */
+    if (matrix[N*i+vertice])
+      neighbour[coloration[i]] = 1;
+  }
+  
+  for (i = coloration[vertice] + 1; i < 5; i++){
+    
+  }
+
+  return -1;
 }
 
 /* Classic functions to handle lists */
