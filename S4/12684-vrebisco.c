@@ -3,28 +3,27 @@
 #include <math.h>
 #include <string.h>
 
-void initialize(unsigned int tab[], int N);
-void affiche_m(unsigned int matrix[], int N);
-int visit(unsigned int matrix[], unsigned int coloration[], int N, int vertice);
+void initialize(int tab[], int N);
+void affiche_m(int matrix[], int N);
+int visit(int matrix[], unsigned int coloration[], int N, int vertice);
 
 int main(void){
   size_t size = 15;
   int N, i, j, bool = 0;
-  unsigned int *matrix = NULL; /* where we will put our graph */
-  unsigned int *coloration = NULL; /* array to track which nodes have been colored */
+  int *matrix = NULL; /* where we will put our graph */
+  int *coloration = NULL; /* array to track which nodes have been colored */
   char *input;
 
   input = malloc(15*sizeof(char));
 
   while (getline(&input, &size, stdin) > 1){
-    count++;
     if (bool)
       printf("\n");
     bool = 1;
     
     N = atoi(strtok(input, "\n"));
-    matrix = malloc(sizeof(unsigned int)*pow(N,2)); /* Matrix of size N^2 */
-    coloration = malloc(sizeof(unsigned int)*N);
+    matrix = malloc(sizeof(int)*pow(N,2)); /* Matrix of size N^2 */
+    coloration = malloc(sizeof(int)*N);
   
     initialize(matrix, pow(N,2)); /* We initialize our matrix with 0 everywhere */
     initialize(coloration, N);
@@ -58,13 +57,13 @@ int main(void){
   return 0;
 }
 
-void initialize(unsigned int tab[], int N){
+void initialize(int tab[], int N){
   int i;
   for (i = 0; i < N; i++)
     tab[i] = 0;
 }
 
-void affiche(unsigned int tab[], int N){
+void affiche(int tab[], int N){
   int i;
   for (i = 0; i < N; i++){
     printf("%d ", tab[i]);
@@ -74,7 +73,7 @@ void affiche(unsigned int tab[], int N){
 
 /* Function wich visit a node */
 
-int visit(unsigned int matrix[], unsigned int coloration[], int N, int vertice){
+int visit(int matrix[], unsigned int coloration[], int N, int vertice){
   int neighbour[5] = {0, 0, 0, 0, 0} , i;
   
   for (i = 0; i < N; i++){ /* We look the color of the neighbour */
@@ -82,7 +81,7 @@ int visit(unsigned int matrix[], unsigned int coloration[], int N, int vertice){
       neighbour[coloration[i]] = 1;
   }
 
-  for (i = 1; i < 5; i++){ /* We look which color are available */
+  for (i = 1; i < 5; i++){ /* We look which colors are available */
     if (!neighbour[i]){
       coloration[vertice] = i;
   
@@ -103,6 +102,6 @@ int visit(unsigned int matrix[], unsigned int coloration[], int N, int vertice){
     }
   }
   
-  coloration[i] = 0;
+  coloration[vertice] = 0;
   return -1;
 }
