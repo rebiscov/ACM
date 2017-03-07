@@ -54,7 +54,6 @@ int main(void){
   int n, m, i, j;
   
   while(scanf("%d %d", &n, &m) != EOF){
-    printf("%d %d\n", n, m);
     m = 1 << m;
     for (i = 0; i < 2; i++){
       for (j = 0; j < 2; j++){
@@ -66,6 +65,8 @@ int main(void){
       printf("0\n");
     else{
       expo(matrix, matrix2, n, m);
+      if (matrix2[1][0] < 0)
+	matrix2[1][0] += m;
       printf("%d\n", matrix2[1][0]%m);
     }
   }
