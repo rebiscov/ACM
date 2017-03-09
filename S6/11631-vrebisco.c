@@ -18,14 +18,7 @@ int cmp(const void *e1, const void *e2){
   return (*(edge*)e1).w - (*(edge*)e2).w;
 }
 
-void print_edges(edge *E, int n){
-  int i;
-  for (i = 0; i < n; i++){
-    printf("%d %d %d\n", E[i].u, E[i].v, E[i].w);
-  }
-}
-
-int find(int x, element *P){
+int find(int x, element *P){ /* We find, and compress the structure */
   int y;
   
   if (P[x].x == x)
@@ -38,7 +31,7 @@ int find(int x, element *P){
   }
 }
 
-void unify(int a, int b, element *P){
+void unify(int a, int b, element *P){ /* We unify (a & b must be representants of their partitions */
   if (a == b)
     printf("x and y are already in the same partition\n");
   else if (P[a].nb > P[b].nb){
@@ -79,8 +72,8 @@ int main(void){
 
     tree = 0;
     for (i = 0; i < n; i++){ /* The core of the algorithm */
-      a = find(E[i].u, P); b = find(E[i].v, P);
-      if (a != b){
+      a = find(E[i].u, P); b = find(E[i].v, P); 
+      if (a != b){ /* If u and v are not in the same partition, we unify the two partitions */
 	tree += E[i].w;
 	unify(a, b, P);
       }
