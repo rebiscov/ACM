@@ -78,7 +78,7 @@ long int count(long int low, long int high){
 int main(void){
   int i, N;
   long int low, high;
-
+  
   tab[0] = 1; tab[1] = 1;
   for (i = 2; i < SIZE; i++){
     tab[i] = 0;
