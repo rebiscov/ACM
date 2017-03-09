@@ -7,8 +7,9 @@ int tab[SIZE];
 int *primes = NULL;
 int nb_primes = 0;
 
-long double log_b(long double x, long double b){ /* It computes logarithm in base b */
-  return (long double)(logl(x)/logl(b));
+long int log_b(long double x, long double b){ /* It computes logarithm in base b */
+  long int res = (long int)(logl(x)/logl(b));
+  return (long int)res;
 }
 
 
@@ -53,9 +54,10 @@ void crible(void){ /* Classical algorithm to find prime numbers */
   }
 }
 
-long int count_p(int p, long int low, long int high){ /*count the number of almost prime numbers with divisor p between low and high */
-  long int m = log_b((int)low, p), M = log_b((int)high, p);
+long int count_p(int p, long int low, long int high){ /* count the number of almost prime numbers with divisor p between low and high */
+  long int m = log_b((long double)low, (long double)p), M = log_b((long double)high, (long double)p);
 
+  printf("M=%d, m=%d, M-m=%d\n", M, m, M-m);
   if (M - m <= 0){
     return 0;
   }
