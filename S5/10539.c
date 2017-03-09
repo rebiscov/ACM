@@ -1,8 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #define SIZE 1000000
 
 int tab[SIZE];
+
+float log_b(float x, float b){ /* It computes logarithm in base b */
+  return log(x)/log(b);
+}
 
 void affiche(void){
   int i;
@@ -34,12 +39,12 @@ void crible(void){
 }
 
 int main(void){
-  int i;
+  int i, ;
   for (i = 0; i < SIZE; i++){
     tab[i] = 0;
   }
   crible(); /* We now have a boolean array wich contains all the prime numbers between 2 and SIZE */
-
+  
   
 
   return 0;
