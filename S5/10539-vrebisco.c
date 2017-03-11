@@ -54,8 +54,8 @@ void crible(void){ /* Classical algorithm to find prime numbers */
   }
 }
 
-long int count_p(int p, long int low, long int high){ /* count the number of almost prime numbers with divisor p between low and high */
-  long int m = log_b((long double)low, (long double)p), M = log_b((long double)high, (long double)p);
+int count_p(int p, long int low, long int high){ /* count the number of almost prime numbers with divisor p between low and high */
+  int m = log_b((double)low, (double)p), M = log_b((double)high, (double)p);
 
 
   if (M - m <= 0){
