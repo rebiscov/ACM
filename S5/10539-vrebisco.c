@@ -7,7 +7,7 @@ int tab[SIZE];
 int *primes = NULL;
 int nb_primes = 0;
 
-long int log_b(long double x, long double b){ /* It computes logarithm in base b */
+int log_b(long double x, long double b){ /* It computes logarithm in base b */
   int res = (long int)(logl(x)/logl(b));
   return (int)res;
 }
