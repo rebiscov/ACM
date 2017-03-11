@@ -5,16 +5,6 @@ int opt[100][100][100][100]; /* We're gonna do a dynamic programm, and here also
 /* opt[i][k][j][l] contains the sum of the rectangle with the top left corner of cordinate (i,k) and bottom right corner (j,l) */
 int N;
 
-void affiche(void){
-  int i, j;
-  for (i = 0; i < N; i++){
-    for (j = 0; j < N; j++){
-      printf("%d ", opt[i][j][i][j]);
-    }
-    printf("\n");
-  }
-}
-
 int main(void){
   int i, j, k, l;
   int max;
@@ -32,7 +22,7 @@ int main(void){
       }
 
   
-    for (i = 0; i < N; i++){
+    for (i = 0; i < N; i++){   /* Here we compute all the rectangles on a single line */
       for (k = 0; k < N; k++){
 	for (l = k + 1; l < N; l++){
 	  opt[i][k][i][l] = opt[i][k][i][l-1]+opt[i][l][i][l];
@@ -42,7 +32,7 @@ int main(void){
       }
     }
     
-    for (i = 0; i < N; i++){
+    for (i = 0; i < N; i++){ /* Here we compute all the rectanbles */
       for (j = i + 1; j < N; j++){
 	for (k = 0; k < N; k++){
 	  for (l = k + 1; l < N; l++){
