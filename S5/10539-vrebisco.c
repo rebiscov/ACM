@@ -4,12 +4,12 @@
 #define SIZE 1000000
 
 int tab[SIZE];
-int *primes = NULL;
+long int *primes = NULL;
 int nb_primes = 0;
 
-int log_b(double x, double b){ /* It computes logarithm in base b */
-  int res = (int)(logl(x)/logl(b));
-  return (int)res;
+long int log_b(long double x, long double b){ /* It computes logarithm in base b */
+  long int res = (long int)(logl(x)/logl(b));
+  return res;
 }
 
 
@@ -22,10 +22,10 @@ void count_prime(void){
 }
 
 void tab_primes(void){
-  int i, j = 0;
+  long int i, j = 0;
 
   count_prime();
-  primes = malloc(sizeof(int)*nb_primes);
+  primes = malloc(sizeof(long int)*nb_primes);
   for (i = 0; i < SIZE; i++){
     if (tab[i] == 0){
       primes[j] = i;
@@ -54,8 +54,8 @@ void crible(void){ /* Classical algorithm to find prime numbers */
   }
 }
 
-int count_p(int p, long int low, long int high){ /* count the number of almost prime numbers with divisor p between low and high */
-  int m = log_b((int)low, p), M = log_b((int)high, p);
+long int count_p(long int p, long int low, long int high){ /* count the number of almost prime numbers with divisor p between low and high */
+  long int m = log_b((long double)low, p), M = log_b((long double)high, p);
 
   if (M - m <= 0){
     return 0;
@@ -65,9 +65,9 @@ int count_p(int p, long int low, long int high){ /* count the number of almost p
 }
 
 long int count(long int low, long int high){
-  int i;
+  long int i;
   long int sum = 0;
-  for (i = 0; i < sqrt(high)+1; i++){
+  for (i = 0; /* primes[i]*primes[i] <= high */ i<nb_primes; i++){
     sum += count_p(primes[i], low, high);
   }
   
@@ -89,8 +89,8 @@ int main(void){
   scanf("%d", &N);
 
   for (i = 0; i < N; i++){
-    scanf("%d %d", &low, &high);
-    printf("%d\n", count(low, high));
+    scanf("%ld %ld", &low, &high);
+    printf("%ld\n", count(low, high));
   }
 
   return 0;
