@@ -7,12 +7,6 @@ int tab[SIZE];
 long int *primes = NULL;
 int nb_primes = 0;
 
-long double log_b(long double x, long double b){ /* It computes logarithm in base b */
-  long double res = (long double)(logl(x)/logl(b));
-  return res;
-}
-
-
 void count_prime(void){
   int i;
   for (i = 0; i < SIZE; i++){
@@ -54,35 +48,25 @@ void crible(void){ /* Classical algorithm to find prime numbers */
   }
 }
 
-long int count_p(long int p, long int low, long int high){ /* count the number of almost prime numbers with divisor p between low and high */
-  long int m = (long int)ceill(log_b((long double)low, (long double)p)), M = (long int)(log_b((long double)high, (long double)p));
-
-  if (M - m < 0){
-    return 0;
+long int count_p(long int p, long int low, long int high){
+  long int i = 0, l = p*p;
+  while (l < low){
+    l *= p;
   }
-  else if (M - m == 0)
-    return 1;
-  else
-    return M - m;
-}
-
-long int count_putain(long int p, long int low, long int high){
-  long int k = 2, i = 0;
-  while (powl(p,k) < low)
-    k++;
-  while (powl(p, k) <= high){
+  while (l <= high){ /* we just count de p^k in [low,high] */
     i++;
-    k++;
+    l *= p;
   }
 
   return i;
 }
 
 long int count(long int low, long int high){
-  long int i;
+  long int i = 0;
   long int sum = 0;
-  for (i = 0; i < nb_primes; i++){
-    sum += count_putain(primes[i], low, high);
+  while (primes[i]*primes[i] <= high && i < nb_primes){
+    sum += count_p(primes[i], low, high); /* We count the number of pseudo prime number of the form p^k */
+    i++;
   }
   
   return sum;
