@@ -9,10 +9,12 @@ enum colors{
 };
 
 int main(void){
-  int nb_test_cases, P, D, i, j, k, u, v;
+  int nb_test_cases, P, D, i, j, k, u, v, d[1000];
   std::vector<int> Persons[1000];
   colors colors[1000];
   std::queue<int> queue;
+
+  d[0] = 0;
 
   scanf("%d", &nb_test_cases);
 
@@ -35,15 +37,22 @@ int main(void){
       queue.pop();
       
       for (k = 0; k < Persons[u].size(); k++){
-	if (colors[Persons[u][k]] == WHITE){
-	  colors[Persons[u][k]] = GREY;
-	  queue.push(Persons[u][k]);
+	v = Persons[u][k];
+	if (colors[v] == WHITE){
+	  colors[v] = GREY;
+	  queue.push(v);
+	  d[v] = d[u] + 1;
 	}
       }
 
       colors[u] = BLACK;
     }
-    
+
+    for (j = 1; j < P; j++){
+      printf("%d\n", d[j]);
+    }
+    if (i < nb_test_cases -1)
+      printf("\n");
   }
   
 
