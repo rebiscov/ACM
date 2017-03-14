@@ -13,87 +13,75 @@ enum colors_aux{
   RED
 };
 
-std::vector<unsigned int> graph[300];
-colors colors[300];
-int colors_aux[300];
-
-int oppose(int colors){
-  if (colors == BLUE)
-    return RED;
-  else if (colors == RED)
+colors_aux oppose(colors_aux color){
+  if (color == RED)
     return BLUE;
+  else if (color == BLUE)
+    return RED;
   else
     return BLANK;
 }
 
-int dfs(unsigned int n, unsigned int u, int color){
-  unsigned int i, v;
-  int color_opp = oppose(color);
-  printf("pere %u\n", u);
-  
+std::vector<unsigned int> graph[300];
+colors colors[300];
+colors_aux colors_aux[300];
+
+int dfs(unsigned int n, unsigned int u){
+  unsigned int i, v, ret = 0;
+
   colors[u] = GREY;
   for (i = 0; i < graph[u].size(); i++){
-    printf("fils %d\n", i);
     v = graph[u][i];
-    if (colors_aux[v] == color)
+    if (colors_aux[v] == colors_aux[u]){
       return 1;
+    }
     else
-      colors_aux[v] = color_opp;
+      colors_aux[v] = oppose(colors_aux[u]);
     if (colors[v] == WHITE){
-      dfs(n, v, oppose(color));
+      ret = dfs(n, v) | ret;
+      if (ret == 1)
+	return 1;
     }
   }
-
-  return 0;
+  return ret;
 }
 
 int main(void){
-  unsigned int n, i, j, u, v, ret;
+  unsigned int n, i, u, v, ret;
 
 
   while(true){
     scanf("%u", &n);
     if (n == 0)
       break;
+    ret = 0;
 
-    for (i = 0; i < 100; i++){
+    for (i = 0; i < n; i++){
       graph[i].clear();
       colors[i] = WHITE;
       colors_aux[i] = BLANK;
     }
 
+    scanf("%u %u", &u, &v);
     do{
-      scanf("%u %u", &u, &v);
       u--; v--;
       graph[u].push_back(v);
       graph[v].push_back(u);
-    } while (u != 0 && v != 0);
-
-    dfs(n, 0, RED);    
-    for (i = 1; i < n; i++){
-      printf("i = %d\n", i);
+      scanf("%u %u", &u, &v);
+    }while (u != 0 && v != 0);
+    
+    for (i = 0; i < n; i++){
       if (colors[i] == WHITE){
 	colors_aux[i] = RED;
-	for (j = 0; j < graph[i].size(); j++){
-	  v = graph[i][j];
-	  if (colors_aux[v] != BLANK){
-	    colors_aux[i] = oppose(colors_aux[v]);
-	    break;
-	  }
-	}
-	ret = dfs(n, u, colors_aux[i]);
-	
-	if (ret == 1){
+	ret = dfs(n, i);
+	if (ret == 1)
 	  break;
-	}
       }
     }
     if (ret == 1)
       printf("NO\n");
     else
       printf("YES\n");
-
-
   }
 
   return 0;
