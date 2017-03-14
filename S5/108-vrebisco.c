@@ -32,7 +32,7 @@ int main(void){
       }
     }
     
-    for (i = 0; i < N; i++){ /* Here we compute all the rectanbles */
+    for (i = 0; i < N; i++){ /* Here we compute all the rectangles */
       for (j = i + 1; j < N; j++){
 	for (k = 0; k < N; k++){
 	  for (l = k + 1; l < N; l++){
