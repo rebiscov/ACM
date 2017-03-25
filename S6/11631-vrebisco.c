@@ -31,7 +31,7 @@ int find(int x, element *P){ /* We find, and compress the structure */
   }
 }
 
-void unify(int a, int b, element *P){ /* We unify (a & b must be representants of their partitions */
+void unify(int a, int b, element *P){ /* We unify (a & b must be representants of their partitions) */
   if (a == b)
     printf("x and y are already in the same partition\n");
   else if (P[a].nb > P[b].nb){
