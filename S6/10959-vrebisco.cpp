@@ -32,7 +32,7 @@ int main(void){
     }
 
     queue.push(0);
-    while (!queue.empty()){
+    while (!queue.empty()){ /* BFS */
       u = queue.front();
       queue.pop();
       

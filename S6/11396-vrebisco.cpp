@@ -26,7 +26,7 @@ std::vector<unsigned int> graph[300];
 colors colors[300];
 colors_aux colors_aux[300];
 
-int dfs(unsigned int n, unsigned int u){
+int dfs(unsigned int n, unsigned int u){ /* dfs */
   unsigned int i, v, ret = 0;
 
   colors[u] = GREY;
@@ -70,7 +70,7 @@ int main(void){
       scanf("%u %u", &u, &v);
     }while (u != 0 && v != 0);
     
-    for (i = 0; i < n; i++){
+    for (i = 0; i < n; i++){ /* We try to do a two coloration of our graph */
       if (colors[i] == WHITE){
 	colors_aux[i] = RED;
 	ret = dfs(n, i);

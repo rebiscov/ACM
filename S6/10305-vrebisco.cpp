@@ -12,7 +12,7 @@ std::vector<unsigned int> tasks[100];
 std::stack<unsigned int> stack;
 colors colors[100];
 
-void dfs(unsigned int n, unsigned int m, unsigned int u){
+void dfs(unsigned int n, unsigned int m, unsigned int u){ /* Depth first search */
   unsigned int i, v;
   colors[u] = GREY;
   for (i = 0; i < tasks[u].size(); i++){
@@ -21,7 +21,7 @@ void dfs(unsigned int n, unsigned int m, unsigned int u){
       dfs(n, m, v);
     }
   }
-  stack.push(u);
+  stack.push(u); /* it's a topological sort */
 }
 
 int main(void){
@@ -33,7 +33,7 @@ int main(void){
     if (n == 0 && m == 0)
       break;
 
-    for (i = 0; i < 100; i++){
+    for (i = 0; i < 100; i++){ /* Preliminaries... */
       tasks[i].clear();
       colors[i] = WHITE;
     }
@@ -44,14 +44,14 @@ int main(void){
       tasks[u].push_back(v);
     }
     
-    for (i = 0; i < n; i++){
+    for (i = 0; i < n; i++){ /* We perform a dfs */
       if (colors[i] == WHITE)
 	dfs(n, m, i);
     }
 
     printf("%d", stack.top()+1);
     stack.pop();
-    while(!stack.empty()){
+    while(!stack.empty()){ /* We print the results */
       printf(" %d", stack.top()+1);
       stack.pop();
     }
