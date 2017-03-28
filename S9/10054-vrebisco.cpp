@@ -5,6 +5,14 @@
 int graph[50][50];
 unsigned int count;
 bool seen[50];
+std::queue<unsigned int> q;
+
+bool has_n(unsigned int u){ /* true if u has a neighbour */
+  for (unsigned i = 0; i < 50; i++)
+    if (graph[u][i] > 0)
+      return true;
+  return false;
+}
 
 bool parity(void){
   unsigned int n;
@@ -45,16 +53,28 @@ void init_seen(void){
     seen[i] = false;
 }
 
-void eulerian_tour(std::queue queue, unsigned u){
-  unsigned int v, i;
-  do{
-    for (i = 0; i < 50; i++)
-      if (graph[u][i] > 0){
-	graph[u][i]--;
-	graph[i][u]--;	
-      }
+void eulerian_tour (unsigned int u){
+  unsigned int i, v = u;
+  std::queue<unsigned int> s;
 
+  do{
+    for (i = 0; i < 50; i++) /* We search a tour */
+      if (graph[v][i] > 0){
+	graph[v][i]--;
+	graph[i][v]--;
+	v = i;
+	s.push(v);
+      }
   } while (u != v);
+
+  while (!s.empty()){
+    unsigned int a;
+    a = s.front();
+    s.pop();
+    printf("%u ", a+1);
+    if (has_n(a))
+      eulerian_tour(a);
+  }
 }
 
 int main(void){
@@ -93,8 +113,10 @@ int main(void){
       continue;
     }
 
-    std::queue queue;
-    
+
+    printf("1 ");
+    eulerian_tour(0);
+    printf("\n");
     
   }
 
