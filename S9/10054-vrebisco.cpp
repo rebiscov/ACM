@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <vector>
+#include <queue>
 
 int graph[50][50];
 unsigned int count;
@@ -44,6 +45,18 @@ void init_seen(void){
     seen[i] = false;
 }
 
+void eulerian_tour(std::queue queue, unsigned u){
+  unsigned int v, i;
+  do{
+    for (i = 0; i < 50; i++)
+      if (graph[u][i] > 0){
+	graph[u][i]--;
+	graph[i][u]--;	
+      }
+
+  } while (u != v);
+}
+
 int main(void){
   unsigned int T, N, u, v, i, j, nb_beads;
   scanf("%u", &T);
@@ -80,8 +93,9 @@ int main(void){
       continue;
     }
 
-    printf("Wesh\n");
-
+    std::queue queue;
+    
+    
   }
 
 
