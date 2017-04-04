@@ -69,16 +69,19 @@ int main(void){ /* Kruskal algorithm... again */
   edge e;
   element p;
 
-  scanf("%d", &N);
+  scanf("%ld", &N);
+
 
   for (i = 0; i < N; i++){
     edges.clear();
     Part.clear();
     
-    scanf("%d %d", &S, &P);
-    
+    scanf("%ld %ld", &S, &P);
+
+
     for (j = 0; j < P; j++)
       scanf("%d %d", &vertices[j].x, &vertices[j].y);
+
 
     for (j = 0; j < P; j++){
       for (k = 0; k < j; k++){
@@ -95,18 +98,21 @@ int main(void){ /* Kruskal algorithm... again */
     }
     tree.clear();
 
-    for (j = 0; j < edges.size(); j++){ /* Kruskal algorithm */
+
+    long int compteur = 0;
+    for (j = 0; j < edges.size() || compteur < S; j++){ /* Kruskal algorithm */
       a = find(edges[j].u, Part); b = find(edges[j].v, Part);
       if (a != b){
 	tree.push_back(edges[j]);
 	unify(a, b, Part);
+	compteur++;
       }
     }
 
     if (S > tree.size())
       printf("%.2f\n", 0.0);
     else if (S == 0) /* This case should never happen */
-      printf("%.2f\n", sqrt((double)tree[tree.size()-1].d));
+      printf("%.2f\n", 0.);
     else
       printf("%.2f\n", sqrt((double)tree[tree.size()-S].d));
   }
