@@ -72,7 +72,6 @@ void eulerian_tour (unsigned int u){
     unsigned int a;
     a = s.front();
     s.pop();
-    printf("%u ", a+1);
     q.push(a+1);
     if (has_n(a))
       eulerian_tour(a);
@@ -117,16 +116,13 @@ int main(void){
     }
 
 
-    printf("1 ");
-    q.push(1);
     eulerian_tour(0);
-    printf("\n");
+    unsigned int b = 1;
     while (!q.empty()){
-      unsigned int beta = q.front();
+      printf("%u %u\n", b, q.front());
+      b = q.front();
       q.pop();
-      printf("%u ", beta);
     }
-    printf("\n");
     
   }
 
