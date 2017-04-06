@@ -2,7 +2,7 @@
 #include <vector>
 #include <queue>
 
-int graph[50][50];
+unsigned int graph[50][50];
 unsigned int count;
 bool seen[50];
 std::queue<unsigned int> q;
@@ -64,6 +64,7 @@ void eulerian_tour (unsigned int u){
 	graph[i][v]--;
 	v = i;
 	s.push(v);
+	break;
       }
   } while (u != v);
 
@@ -72,6 +73,7 @@ void eulerian_tour (unsigned int u){
     a = s.front();
     s.pop();
     printf("%u ", a+1);
+    q.push(a+1);
     if (has_n(a))
       eulerian_tour(a);
   }
@@ -84,12 +86,12 @@ int main(void){
   for (i = 0; i < T; i++){
     count = 0;
     
-    if (!(i == 0))
+    if (i != 0)
       printf("\n");
     printf("Case #%d\n", i+1);
     
     scanf("%u", &N);
-    init();
+    init(); /* We initialise boolean array seen to false and the matrix of the graph to 0 */
     nb_beads = 0;
 
     for (j = 0; j < N; j++){
@@ -106,6 +108,7 @@ int main(void){
     }
     
     init_seen();
+    count = 0;
     dfs(0); /* We check if the graph is connected */
 
     if (nb_beads != count || !parity()){ /* parity checks if the graph can have an Eulerian tour */
@@ -115,7 +118,14 @@ int main(void){
 
 
     printf("1 ");
+    q.push(1);
     eulerian_tour(0);
+    printf("\n");
+    while (!q.empty()){
+      unsigned int beta = q.front();
+      q.pop();
+      printf("%u ", beta);
+    }
     printf("\n");
     
   }
