@@ -79,7 +79,7 @@ void eulerian_tour (unsigned int u){
 }
 
 int main(void){
-  unsigned int T, N, u, v, i, j, nb_beads;
+  unsigned int T, N, u, v, i, j, nb_nodes;
   scanf("%u", &T);
 
   for (i = 0; i < T; i++){
@@ -91,26 +91,31 @@ int main(void){
     
     scanf("%u", &N);
     init(); /* We initialise boolean array seen to false and the matrix of the graph to 0 */
-    nb_beads = 0;
+    nb_nodes = 0;
 
+    init_seen();
     for (j = 0; j < N; j++){
       scanf("%u %u", &u, &v);
       u--; v--;
       graph[u][v] += 1;
       graph[v][u] += 1;
 
-      if (!seen[u])
-	nb_beads++;
-      if (!seen[v])
-	nb_beads++;
-      seen[u] = true; seen[v] = true;
+      if (!seen[u]){
+	nb_nodes++;
+	seen[u] = true;
+      }
+      if (!seen[v]){
+	nb_nodes++;
+	seen[v] = true;		
+      }
+
     }
     
     init_seen();
     count = 0;
     dfs(0); /* We check if the graph is connected */
 
-    if (nb_beads != count || !parity()){ /* parity checks if the graph can have an Eulerian tour */
+    if (nb_nodes != count || !parity()){ /* parity checks if the graph can have an Eulerian tour */
       printf("some beads may be lost\n");
       continue;
     }
