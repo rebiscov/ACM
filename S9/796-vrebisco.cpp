@@ -1,81 +1,74 @@
+#include <iostream>
 #include <cstdio>
+#include <algorithm>
 #include <vector>
-#include <stack>
-#include <utility>
+#include <set>
+
+using namespace std;
+
+vector<vector<int>> adj;
+vector<int> visited, low, parents;
+set<pair<int,int> > ans;
+int num, N;
+
+void dfs(int u){
+  visited[u] = low[u] = num++;
+  for(int i =0; i < adj[u].size(); i++){
+    int v = adj[u][i];
+    if(visited[v] == -1){
+      parents[v] = u;
+      dfs(v);
+      low[u] = min(low[v], low[u]);
+      if(low[v] > visited[u]){
+	int s = u, t = v;
+	if(s > t){
+	  int temp = s;
+	  s = t;
+	  t = temp;
+	}
+	ans.insert(make_pair(s,t));
+      }
+    } else if(parents[u] != v){
+      low[u] = min(visited[v], low[u]);
+    }
+  }
+}
 
 int main(void){
-  unsigned int n, nb_n, u, v;
-
-  scanf("%u", &n);
-  while (n != 0){
-    std::vector<std::vector<unsigned int>> graph(n);
-    std::vector<bool> seen(n, false);
-    std::vector<std::vector<bool>> edges(v, std::vector<bool>(n,false));
-    for (unsigned int i = 0; i < n; i++){
-      scanf("%u (%u)", &u, &nb_n);
-
-      for (unsigned int j = 0; j < nb_n; j++){
-	scanf("%u", &v);
-	graph[u].push_back(v);
+  while(scanf("%d", &N) != EOF){
+    num = 0;
+    ans.clear();
+    adj = vector<vector<int>>(N);
+    for(int i = 0; i < N; i++){
+      int u, p;
+      scanf("%d (%d)", &u, &p);
+      for(int j = 0; j < p; j++){
+	int v;
+	scanf(" %d", &v);
+	adj[u].push_back(v);
+	adj[v].push_back(u);
       }
     }
-    printf("Fin entrée\n");
-
-    std::stack<unsigned int> s;
-    std::vector<std::pair<int,int>> e;
-    std::pair<unsigned int, unsigned int> last_e;
-    last_e.first = 0; last_e.second = 0;
-
-    for(unsigned int j = 0; j < n; j++){
-      printf("j = %u\n", j);
-      if (!seen[j]){
-	s.push(j);
-	
-	while (!s.empty()){
-	  unsigned int c_u = s.top();
-	  
-	  if (seen[c_u]){
-	    s.pop();
-	    continue;
-	  }
-	  seen[c_u] = true;
-	  
-	  for (unsigned int k = 0; k < graph[c_u].size(); k++){
-	    printf("  k = %u\n", k);
-	    if(!seen[graph[c_u][k]])
-	      s.push(graph[c_u][k]);
-	    
-	    else if (!((graph[c_u][k] == last_e.first && c_u == last_e.second) || (graph[c_u][k] == last_e.second && last_e.first == c_u))){
-	      std::stack<unsigned int> t;
-	      unsigned int vert = graph[c_u][k];
-	      while (s.top() != graph[c_u][k]){
-		printf("    +1\n");
-		t.push(s.top());
-		edges[s.top()][vert] = true;
-		edges[vert][s.top()] = true;
-		printf("    btop\n");
-		vert = s.top();
-		printf("    etop\n");
-		s.pop();
-	      }
-	      while (!t.empty()){
-		printf("    -1\n");
-		s.push(t.top());
-		t.pop();
-	      }
-	    }
-	  }
-	  unsigned int a = s.top();
-	  s.pop();
-	  if (!s.empty() && !edges[a][s.top()])
-	    e.push_back(std::make_pair (a, s.top()));
-	  
-	}
+    visited.clear();
+    low.clear();
+    parents.clear();
+    for(int i = 0; i < N; i++){
+      visited[i] = -1;
+      low[i] = -1;
+      parents[i] = -1;
+    }
+    for(int i=0; i < N; i++){
+      if(visited[i] == -1){
+	dfs(i);
       }
     }
-
-    scanf("%u", &n);
+    int nb = ans.size();
+    set<pair<int, int>>::iterator it;
+    printf("%d critical links\n", nb);
+    for(it = ans.begin(); it != ans.end(); it++){
+      printf("%d - %d\n", it->first, it->second);
+    }
+    printf("\n");
   }
-
   return 0;
 }
