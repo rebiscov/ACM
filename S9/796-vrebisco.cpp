@@ -12,14 +12,15 @@ set<pair<int,int> > ans;
 int num, N;
 
 void dfs(int u){
-  visited[u] = low[u] = num++;
-  for(int i =0; i < adj[u].size(); i++){
+  visited[u] = num++; /* We save when we discovered u*/
+  low[u] = num++;
+  for(int i = 0; i < adj[u].size(); i++){
     int v = adj[u][i];
-    if(visited[v] == -1){
+    if(visited[v] == -1){ /* if not visited yet */
       parents[v] = u;
       dfs(v);
       low[u] = min(low[v], low[u]);
-      if(low[v] > visited[u]){
+      if(low[v] > visited[u]){ /* if we can use (u,v) is in a cycle... */
 	int s = u, t = v;
 	if(s > t){
 	  int temp = s;
@@ -28,7 +29,8 @@ void dfs(int u){
 	}
 	ans.insert(make_pair(s,t));
       }
-    } else if(parents[u] != v){
+    }
+    else if(parents[u] != v){
       low[u] = min(visited[v], low[u]);
     }
   }
@@ -52,12 +54,12 @@ int main(void){
     visited.clear();
     low.clear();
     parents.clear();
-    for(int i = 0; i < N; i++){
+    for(int i = 0; i < N; i++){ /* Initialisation */
       visited[i] = -1;
       low[i] = -1;
       parents[i] = -1;
     }
-    for(int i=0; i < N; i++){
+    for(int i = 0; i < N; i++){
       if(visited[i] == -1){
 	dfs(i);
       }
