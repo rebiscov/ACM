@@ -3,15 +3,6 @@
 #include <stack>
 #include <utility>
 
-void print_stack(std::stack<unsigned int> s){
-  printf("Stack: ");
-  while (!s.empty()){
-    printf("%u ", s.top());
-    s.pop();
-  }
-  printf("\n");
-}
-
 int main(void){
   unsigned int n, nb_n, u, v;
 
@@ -38,12 +29,10 @@ int main(void){
     for(unsigned int j = 0; j < n; j++){
       printf("j = %u\n", j);
       if (!seen[j]){
-	printf("push %u\n", j);
 	s.push(j);
 	
 	while (!s.empty()){
 	  unsigned int c_u = s.top();
-	  s.pop();
 	  
 	  if (seen[c_u]){
 	    s.pop();
@@ -52,18 +41,13 @@ int main(void){
 	  seen[c_u] = true;
 	  
 	  for (unsigned int k = 0; k < graph[c_u].size(); k++){
-	    print_stack(s);
 	    printf("  k = %u\n", k);
-	    printf("  c_u = %u\n", c_u);
-	    if(!seen[graph[c_u][k]]){
-	      printf("push parcours %u\n", graph[c_u][k]);
+	    if(!seen[graph[c_u][k]])
 	      s.push(graph[c_u][k]);
-	    }
 	    
 	    else if (!((graph[c_u][k] == last_e.first && c_u == last_e.second) || (graph[c_u][k] == last_e.second && last_e.first == c_u))){
 	      std::stack<unsigned int> t;
 	      unsigned int vert = graph[c_u][k];
-	      printf("search for %u\n", graph[c_u][k]);
 	      while (s.top() != graph[c_u][k]){
 		printf("    +1\n");
 		t.push(s.top());
@@ -73,11 +57,7 @@ int main(void){
 		vert = s.top();
 		printf("    etop\n");
 		s.pop();
-		printf("    end\n");
-		if (s.empty())
-		  printf("! EMPTY !\n");
 	      }
-	      printf("yo\n");
 	      while (!t.empty()){
 		printf("    -1\n");
 		s.push(t.top());
@@ -85,9 +65,10 @@ int main(void){
 	      }
 	    }
 	  }
-	  if (!s.empty() && !edges[c_u][s.top()])
-	    e.push_back(std::make_pair (c_u, s.top()));
-	  last_e.first = c_u; last_e.second = s.top();
+	  unsigned int a = s.top();
+	  s.pop();
+	  if (!s.empty() && !edges[a][s.top()])
+	    e.push_back(std::make_pair (a, s.top()));
 	  
 	}
       }
