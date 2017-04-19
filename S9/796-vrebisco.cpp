@@ -13,7 +13,7 @@ int num, N;
 
 void dfs(int u){
   visited[u] = num++; /* We save when we discovered u*/
-  low[u] = num++;
+  low[u] = visited[u];
   for(int i = 0; i < adj[u].size(); i++){
     int v = adj[u][i];
     if(visited[v] == -1){ /* if not visited yet */
