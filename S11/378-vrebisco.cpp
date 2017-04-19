@@ -1,6 +1,6 @@
 #include <cstdio>
 
-void inter(long eq1[3], long eq2[3]){
+void inter(const long eq1[3], const long eq2[3]){
   double res[2], det = eq1[0]*eq2[1] - eq1[1]*eq2[0];;
 
   res[0] = (1/det) * (eq1[2]*eq2[1] - eq2[2]*eq1[1]);
@@ -13,8 +13,11 @@ bool par(const long equation1[3], const long equation2[3]){
   return equation1[0]*equation2[1] == equation1[1]*equation2[0];
 }
 
-bool same(const long equation1[3], const long equation2[3]){
-  return (equation1[0]*equation2[1] == equation1[1]*equation2[0]) && (equation1[0]*equation2[2] == equation1[2]*equation2[0]);
+bool share (const long eq1[3], const long eq2[3], long point[2][2]){
+  if ((eq1[0] * point[0][0] + eq1[1] * point[0][1] == eq1[2]) && (eq2[0] * point[0][0] + eq2[1] * point[0][1] == eq2[2]))
+    printf("LINE\n");
+  else
+    printf("NONE\n");
 }
 
 void compute_equation(const long points[2][2], long equation[3]){ /* The equation of a line is ax + by = c */
@@ -35,10 +38,9 @@ int main(void){
     scanf("%ld %ld %ld %ld %ld %ld %ld %ld", &points1[0][0], &points1[0][1], &points1[1][0], &points1[1][1], &points2[0][0], &points2[0][1], &points2[1][0], &points2[1][1]);
     compute_equation(points1, equation1);
     compute_equation(points2, equation2);
-    if (same(equation1, equation2))
-      printf("LINE\n");
-    else if (par(equation1, equation2))
-      printf("NONE\n");
+    if (par(equation1, equation2)){
+      share(equation1, equation2, points1);
+    }
     else
       inter(equation1, equation2);
 
