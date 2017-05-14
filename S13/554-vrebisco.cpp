@@ -48,8 +48,7 @@ void print(void){
     if (c == 60){
       c = 0;
       trad[l] = '\n';
-      while (trad[k] != ' ')
-	k++;
+      k = l;
     }
     c++;
   }
