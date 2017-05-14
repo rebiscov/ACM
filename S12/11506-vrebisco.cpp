@@ -2,6 +2,8 @@
 #include <vector>
 #include <queue>
 
+/* C'est comme le premier exo sauf qu'on double les noeuds (hors s et t) en deux noeuds, un noeud "in" ou les flux entre et un noeud "out" ou les flux sortent et entre les deux une arrete qui represente le cout pour retirer la machine */
+
 unsigned int s, t, n, count;
 
 bool bfs(std::vector<std::vector<unsigned int>> &graph, std::vector<std::vector<unsigned int>> &b, std::vector<unsigned int> &path){
@@ -67,6 +69,7 @@ int main(void){
     for (unsigned int i = 0; i < np-2; i++){
       scanf("%u %u", &u, &cost);
       u--;
+
       b[u][u+np] += cost;
       graph[u].push_back(u+np);
     }
