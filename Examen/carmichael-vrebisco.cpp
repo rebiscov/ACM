@@ -3,8 +3,8 @@
 
 bool p[1000001];
 
-bool est_premier(int p){
-  for (int i = 2; i <= sqrt(p) + 1; i++)
+bool est_premier(long long int p){
+  for (long long int i = 2; i <= sqrt(p) + 1; i++)
     if (p%i == 0)
       return false;
   return true;
@@ -17,34 +17,36 @@ void init(){
     p[i] = est_premier(i);
 }
 
-int powint(int a, int b, int p){
-  int res = 1;
-  int n = 0;
-  for (int i = 0; i < b; i++){
-    res = (res*a)% p;
+long long int powint(long long int a, long long int b, long long int p){
+  long long int temp;
+
+  if (b == 0)
+    return 1;
+  else if (b % 2 == 0){
+    temp = powint(a, b/2, p) %p;
+    return (temp*temp)%p;
   }
-  return res;
+  else{
+    temp = powint(a, (b-1)/2, p)%p;
+    return (temp*temp*a)%p;
+  }
 }
 
-bool carmichael(int a, int p){
+bool carmichael(long long int a, long long int p){
   return (powint(a, p-1, p)%p) == 1;
 }
 
-int main(void){ /* J'aurais pu faire l'algorithme du crible pour les nombres premiers mais c'est pas vraiment long de calculer les nombres premiers entre 1 et 10^6 */
-  int a, n1, n2, count;
-  bool b = false;
+int main(void){ /* J'aurais pu faire l'algorithme du crible pour les nombres premiers mais c'est pas vraiment long long de calculer les nombres premiers entre 1 et 10^6 */
+  long long int a, n1, n2, count;
   
   init();
-  while (scanf("%d %d %d", &a, &n1, &n2) > 0){
+  while (scanf("%ld %ld %ld", &a, &n1, &n2) > 0){
     count = 0;
     for (int i = n1; i <= n2; i++){
       if ((!p[i]) && carmichael(a, i))
 	count++;
     }
-    if (b)
-      printf("\n");
-    b = true;
-    printf("%d", count);
+    printf("%ld\n", count);
   }
   
   return 0;
